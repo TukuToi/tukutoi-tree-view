@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: ToolWine TreeView
-Plugin URI: 
+Plugin URI: https://github.com/TukuToi/ToolWine-TreeView
 Description: Tree View of Contents in WP Dashboard
 Version: 0.1
 Author: Beda Schmid
