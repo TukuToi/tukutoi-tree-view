@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 /*
 Plugin Name: ToolWine TreeView
 Plugin URI: https://github.com/TukuToi/ToolWine-TreeView
