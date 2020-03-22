@@ -1,0 +1,48 @@
+.page_item_has_children.tkt-treeview-description {
+	padding:7px;
+}
+.tkt-tree-view-max-height {
+	width: 100%;
+	max-height: 300px;
+	overflow: auto;
+}
+
+div.tkt_tree_view_parent_item.active:after {
+  content: "\2212";
+}
+.tkt_tree_view_parent_item:after {
+  content: "\002B";
+  color: black;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+li.page_item_has_children {
+	padding-left:7px;
+}
+li.page_item:not(.page_item_has_children) {
+	padding-left: 35px;
+}
+#tkt_treeview_dashboard_widget a { 
+	color:black
+}
+.child {
+	padding:7px;
+	margin-left:14px;
+	background-color:#f1f1f1;
+	
+	overflow:hidden;
+}
+.tkt_tree_view_parent_item {
+	background-color:#e5e5e5;
+	padding:7px;
+}
+a.tkt-parent-link {
+	text-decoration:none;
+}
+.tkt-treeview-search {
+	padding: 7px 7px 21px 0px;
+}
+.tkt-edit-icon {
+	padding-right: 10px;
+}
