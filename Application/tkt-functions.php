@@ -11,9 +11,9 @@ function tkt_enqueue_styles_and_scripts(){
 	}
 }
 
-function tkt_treeview_posts($post_type = 'page'){
+function tkt_tree_view_posts($post_type = 'page'){
 	
-	$post_type = apply_filters( 'tkt_treeview_posts_type', $post_type );
+	$post_type = apply_filters( 'tkt_tree_view_posts_type', $post_type );
 	
 	if ($post_type == 'page') {
 		$all_posts = get_pages();
@@ -45,7 +45,7 @@ function tkt_render_tree_view_search(){
 }
 
 function tkt_render_tree_view(){
-	$out = tkt_build_tree_view_html(tkt_treeview_posts());
+	$out = tkt_build_tree_view_html(tkt_tree_view_posts());
 	return $out;
 }
 

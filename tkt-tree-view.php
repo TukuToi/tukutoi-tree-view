@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name: Hierarchical Posts Tree
+ * Plugin Name: TukuToi Tree View
  * Description: WordPress Dashboard Widget displaying a Tree View of Hierarchical Pages
  * Plugin URI: https://github.com/TukuToi/ToolWine-TreeView
  * Author: Beda Schmid
  * Author URI: https://tukutoi.com
  * Version: 1.0.0
  * License: GPL2
- * Text Domain: tkt-tree-view
+ * Text Domain: tkt_tree_view
  */
 
 //Do not access directly
@@ -21,6 +21,6 @@ include_once(plugin_dir_path(__FILE__).'Application/tkt-functions.php');
 add_action( 'admin_enqueue_scripts', 'tkt_enqueue_styles_and_scripts' );
 
 include_once(plugin_dir_path(__FILE__).'widget.php');
-add_action( 'wp_dashboard_setup', 'tkt_treeview_dashboard_widget' );
+add_action( 'wp_dashboard_setup', 'tkt_tree_view_dashboard_widget' );
 
 include_once(plugin_dir_path(__FILE__).'update.php');
