@@ -11,14 +11,14 @@ if (!defined('ABSPATH')) exit;
  *
  * @link https://developer.wordpress.org/reference/functions/wp_add_dashboard_widget/
  */
-function tkt_treeview_dashboard_widget() {
+function tkt_tree_view_dashboard_widget() {
 	$post_type = 'Page';
-	$post_type = apply_filters( 'tkt_treeview_posts_type', $post_type );
+	$post_type = apply_filters( 'tkt_tree_view_posts_type', $post_type );
 	$name = 'Hierarchical ' . ucfirst($post_type) . ' Tree View';
 	wp_add_dashboard_widget(
-		'tkt_treeview_dashboard_widget',// Widget slug.
+		'tkt_tree_view_dashboard_widget',// Widget slug.
 		$name,// Title.
-		'tkt_treeview_dashboard_widget_content_callback'// Display function.
+		'tkt_tree_view_dashboard_widget_content_callback'// Display function.
 	);	
 }
 
@@ -28,10 +28,10 @@ function tkt_treeview_dashboard_widget() {
 function tkt_treeview_dashboard_widget_content_callback() {
 
 	if (tkt_treeview_posts()) {
-		echo '<div class="tkt-treeview-description">';
-		echo tkt_render_tree_view_widget_info_header($post_type = apply_filters( 'tkt_treeview_posts_type', 'Pages' ));
+		echo '<div class="tkt-tree-view-description">';
+		echo tkt_render_tree_view_widget_info_header($post_type = apply_filters( 'tkt_tree_view_posts_type', 'Pages' ));
 		echo '</div>';
-		echo '<div class="tkt-treeview-search">';
+		echo '<div class="tkt-tree-view-search">';
 		echo tkt_render_tree_view_search();
 		echo '</div>';
 		echo '<div class="tkt-tree-view-max-height">';
@@ -40,7 +40,7 @@ function tkt_treeview_dashboard_widget_content_callback() {
 	}
 	else {
 		echo '<h4>You have no hierarchical pages.</h4>';
-		echo 'You can query another post type if its hierarchic, by returning a valid post type with the <a href="https://tukutoi.com/doc/tkt_treeview_posts_type">tkt_treeview_posts_type filter</a>.<br>Or, connect some Pages hierarchically to see them here.';
+		echo 'You can query another post type if its hierarchic, by returning a valid post type with the <a href="https://tukutoi.com/doc/tkt_tree_view_posts_type">tkt_treeview_posts_type filter</a>.<br>Or, connect some Pages hierarchically to see them here.';
 	}
 
 }
