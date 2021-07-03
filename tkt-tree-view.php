@@ -12,7 +12,7 @@
  * @package           Tkt_Tree_View
  *
  * @wordpress-plugin
- * Plugin Name:       TukuToi Tree View
+ * Plugin Name:       TukuToi Hierarchical Posts Tree View
  * Plugin URI:        https://www.tukutoi.com/program/hierarchical-posts-tree/
  * Description:       WordPress Dashboard Widget displaying a Tree View of Hierarchical Pages or Posts.
  * Version:           1.0.2
