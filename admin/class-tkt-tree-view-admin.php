@@ -84,7 +84,7 @@ class Tkt_Tree_View_Admin {
 	 */
 	private function caps_check() {
 
-		if ( ! is_admin() || ( ! current_user_can( 'manage_options' ) || ( is_multisite() && ! current_user_can( 'manage_network_options' ) ) ) ) {
+		if ( ! is_admin() || ! is_user_logged_in() || ( ! current_user_can( 'manage_options' ) || ( is_multisite() && ! current_user_can( 'manage_network_options' ) ) ) ) {
 
 			return false;
 
