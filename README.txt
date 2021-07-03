@@ -1,4 +1,4 @@
-=== TukuToi Tree View ===
+=== TukuToi Hierarchical Posts Tree View ===
 Contributors: bedas
 Donate link: https://www.tukutoi.com/
 Tags: tree-view, hierarchical, pages, widget, classicpress
@@ -16,7 +16,7 @@ When you have a Hierarchical Post Type such as Pages, it is often difficult to k
 In the WordPress posts list, when you search by a given Post, you won't see the related Parent or Child items connected to it, in the resulting posts list.
 Thus you need to edit the post, to see what parent Posts it has. You still can't find its children post this way.
 
-The TukuToi Hierarchical Posts Tree Plugin adds a WordPress Dashboard Widget to display hierarchical Pages or Posts in a searchable list, which keeps showing the parent and child posts of the search result. 
+The TukuToi Hierarchical Posts Tree View Plugin adds a WordPress Dashboard Widget to display hierarchical Pages or Posts in a searchable list, which keeps showing the parent and child posts of the search result. 
 Thus, it resolves this organzational problem.
 
 By default, the Plugin queries the native WordPress Page post type, and it displays a (foldable and searchable) list of each Parent Pages Children posts. 
