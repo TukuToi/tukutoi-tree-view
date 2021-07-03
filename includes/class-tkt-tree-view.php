@@ -18,7 +18,7 @@
  * This is used to define internationalization, admin-specific hooks, and
  * public-facing site hooks.
  *
- * Also maintains the unique identifier of this plugin as well as the current
+ * Also maintains the unique identifier of this plugin, shortname, as well as the current
  * version of the plugin.
  *
  * @since      1.0.0
@@ -46,6 +46,15 @@ class Tkt_Tree_View {
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
+
+	/**
+	 * The shortname of this plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   protected
+	 * @var      string    $plugin_short    The string used to uniquely prefix technical functions.
+	 */
+	protected $plugin_short;
 
 	/**
 	 * The current version of the plugin.

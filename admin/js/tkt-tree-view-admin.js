@@ -1,6 +1,9 @@
 (function( $ ) {
 	'use strict';
 
+	/**
+	 * Instantiate all required variables.
+	 */
 	var tkt_filter, tkt_ul, tkt_li, tkt_a, tkt_i, tkt_txtValue, i, content;
 	var plugin_short 	= 'tkt_htv';
 	var tkt_coll 		= document.getElementsByClassName( plugin_short + '_parent_item' );
@@ -8,6 +11,10 @@
 	var tkt_input 		= '';
 	var found_class		= '';
 
+	/**
+	 * When everything is loaded, build the hide/show logic to unfold single trees.
+	 * Also load the search functionality.
+	 */
 	$( window ).on( 'load', function() {
 
 		for ( i = 0; i < tkt_coll.length; i++ ) {
@@ -32,10 +39,14 @@
 
 		}
 
+		//Search.
 		tkt_inputs.forEach( tkt_get_src_inputs );
 		
 	});
 
+	/**
+	 * Get all available search inputs (potentially more than one).
+	 */
 	function tkt_get_src_inputs(item, index){
 
 		tkt_input = document.getElementById( plugin_short + '-' + item[0] + '-search-input' );
@@ -48,6 +59,10 @@
 
 	}
 
+	/**
+	 * Filter thru the results list, hide the unfound, highlight all matches.
+	 * Note, do NOT hide elements in match family tree.
+	 */
 	function tkt_search_on_the_fly_function( instance ) {
 
 
