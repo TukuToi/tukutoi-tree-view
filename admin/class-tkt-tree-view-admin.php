@@ -80,10 +80,11 @@ class Tkt_Tree_View_Admin {
 	 * Check for capabilities.
 	 *
 	 * @since    1.0.0
-	 * @return  bool   $is_admin_logged_in  Either abort or return true.
+	 * @return  bool   true or false  Either abort or return true.
 	 */
 	private function caps_check() {
 
+		// The user might want to show the Widgets to other roles/caps.
 		$capability_s = sanitize_text_field( apply_filters( $this->plugin_short . '_capability_single', 'manage_options' ) );
 		$capability_m = sanitize_text_field( apply_filters( $this->plugin_short . '_capability_multi', 'manage_network_options' ) );
 
@@ -138,7 +139,7 @@ class Tkt_Tree_View_Admin {
 	 *
 	 * @since    1.0.0
 	 * @param   string $post_type  The post Type to query.
-	 * @return  array   $all_posts  All Posts found by get_pages or get_posts.
+	 * @return  array   $all_parents  All Posts found by get_pages or get_posts.
 	 */
 	private function tree_view_posts( $post_type ) {
 
@@ -266,7 +267,7 @@ class Tkt_Tree_View_Admin {
 	 *
 	 * @since    1.0.0
 	 * @param   object $post    The Post tested.
-	 * @return  bool    $has_child    Wether the post has any children.
+	 * @return  bool    $has_children    Wether the post has any children.
 	 */
 	private function posts_have_children( $post ) {
 
@@ -288,7 +289,7 @@ class Tkt_Tree_View_Admin {
 	}
 
 	/**
-	 * Register the JavaScript for the admin area.
+	 * Render the Tree View.
 	 *
 	 * @since    1.0.0
 	 * @param   string $post_type  The post Type queried.
@@ -427,7 +428,7 @@ class Tkt_Tree_View_Admin {
 
 			// Translators: %s is the Name of a Post Type.
 			echo wp_kses( sprintf( __( '<h4>You have no hierarchical %s. </h4>', 'tkt-tree-view' ), $post_type ), 'post' );
-			// Translators: %s is a link to an external Documentation. Do NOT Translate.
+			// Translators: %s is a link to an external Documentation with a technical handle. Do NOT Translate.
 			echo wp_kses( sprintf( __( 'You can query another post type if its hierarchic, by returning a valid post type with the %s filter. Or, connect some Pages hierarchically to see them here.', 'tkt-tree-view' ), '<a href="https://tukutoi.com/doc/tkt_htv_default_post_type" target="_blank"><code>tkt_htv_default_post_type</code></a>' ), 'post' );
 
 		}

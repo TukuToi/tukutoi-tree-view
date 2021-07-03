@@ -4,5 +4,5 @@
  *
  * It exists to stop directory listings on poorly configured servers.
  *
- * @package           whatever
+ * @package     Tkt_Tree_View
  */

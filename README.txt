@@ -1,7 +1,7 @@
 === TukuToi Tree View ===
 Contributors: bedas
 Donate link: https://www.tukutoi.com/
-Tags: treeview, hierarchical, posts, pages, widget
+Tags: tree-view, hierarchical, pages, widget, classicpress
 Requires at least: 4.9
 Tested up to: 5.7
 Stable tag: 1.0.2
@@ -87,8 +87,8 @@ For example, this query will show the next 100 posts:
 `/?_per_page=100&_offset=100`
 
 If you want to increase the amount of Posts shown by default, or the offset, you can use the filters documented here:
-<a href="">`tkt_htv_pagination_default`</a>
-<a href="">`tkt_htv_offset_default`</a>
+<a href="https://www.tukutoi.com/doc/tkt_htv_pagination_default">`tkt_htv_pagination_default`</a>
+<a href="https://www.tukutoi.com/doc/tkt_htv_offset_default">`tkt_htv_offset_default`</a>
 
 = I get the message "You have no hierarchical {Post Type} message" =
 
@@ -106,7 +106,7 @@ you would have to add these URL parameters to see the Post in the Widget:
 
 = What other filters are available? =
 
-Check the Documentation <a href="">here</a>
+Check the Documentation <a href="https://www.tukutoi.com/doc/?wpv_post_search&wpv-relationship-filter=338&wpv_view_count=4635">here</a>
 
 == Screenshots ==
 
