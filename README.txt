@@ -4,7 +4,7 @@ Donate link: https://www.tukutoi.com/
 Tags: treeview, hierarchical, posts, pages, widget
 Requires at least: 4.9
 Tested up to: 5.7
-Stable tag: 1.0.0
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,5 +55,12 @@ function change_the_post_type($post_type){
 
 == Changelog ==
 
-= 1.0 =
+= 1.0.2 =
+* Optimised Performance
+* Added Capabilites Checks
+
+= 1.0.1 =
+* Updated Features
+
+= 1.0.0 =
 * Initial Commit.

@@ -84,17 +84,13 @@ class Tkt_Tree_View_Admin {
 	 */
 	private function caps_check() {
 
-		$is_admin_logged_in = false;
+		if ( ! is_admin() || ( ! current_user_can( 'manage_options' ) || ( is_multisite() && ! current_user_can( 'manage_network_options' ) ) ) ) {
 
-		if ( is_admin() && ( current_user_can( 'manage_options' ) || current_user_can( 'manage_network_options' ) ) ) {
+			return false;
 
-			$is_admin_logged_in = true;
-
-		} else {
-			return;
 		}
 
-		return $is_admin_logged_in;
+		return true;
 
 	}
 
@@ -120,12 +116,14 @@ class Tkt_Tree_View_Admin {
 	 */
 	private function get_amount_per_page() {
 
-		$per_page   = isset( $_GET['_per_page'] ) ? intval( $_GET['_per_page'] ) : 100;
-		$offset     = isset( $_GET['_offset'] ) ? intval( $_GET['_offset'] ) : 0;
+		$per_page_default   = apply_filters( $this->plugin_short . 'pagination_default', 100 );
+		$offset_default     = apply_filters( $this->plugin_short . 'offset_default', 0 );
+		$per_page           = isset( $_GET['_per_page'] ) ? intval( $_GET['_per_page'] ) : intval( $per_page_default );
+		$offset             = isset( $_GET['_offset'] ) ? intval( $_GET['_offset'] ) : intval( $offset_default );
 
 		$pagination = array(
-			'per_page' => $per_page,
-			'offset' => $offset,
+			'per_page'  => $per_page,
+			'offset'    => $offset,
 		);
 
 		return $pagination;
@@ -141,30 +139,42 @@ class Tkt_Tree_View_Admin {
 	 */
 	private function tree_view_posts( $post_type ) {
 
-		$all_posts = array();
+		$all_posts      = array();
+		$all_parents    = array();
 
 		if ( 'page' == $post_type ) {
 
 			$all_posts = get_pages(
 				array(
-					'offset'    => $this->get_amount_per_page()['offset'],
-					'number'    => $this->get_amount_per_page()['per_page'],
+					'offset'   => $this->get_amount_per_page()['offset'],
+					'number'   => $this->get_amount_per_page()['per_page'],
+					'parent'   => 0,
 				)
 			);
 
 		} else {
 
 			$args = array(
-				'numberposts' => $this->get_amount_per_page()['per_page'],
-				'offset'    => $this->get_amount_per_page()['offset'],
-				'post_type' => $post_type,
+				'numberposts'   => $this->get_amount_per_page()['per_page'],
+				'offset'        => $this->get_amount_per_page()['offset'],
+				'post_type'     => $post_type,
+				'post_parent'   => 0,
 			);
 
 			$all_posts = get_posts( $args );
 
 		}
 
-		return $all_posts;
+		foreach ( $all_posts as $post ) {
+
+			if ( $this->posts_have_children( $post ) ) {
+
+				$all_parents[] = $post;
+
+			}
+		}
+
+		return $all_parents;
 
 	}
 
@@ -223,57 +233,28 @@ class Tkt_Tree_View_Admin {
 
 		foreach ( $all_posts_in_type as $post ) {
 
-			if ( '' == $post->post_parent && true === $this->posts_have_children( $post ) ) {
+			$parent = '<a class="' . esc_attr( $this->plugin_short ) . '-parent-link" href="' . get_edit_post_link( $post ) . '" target="_blank"><span class="' . esc_attr( $this->plugin_short ) . '-edit-icon dashicons dashicons-edit"></span>' . sanitize_text_field( $post->post_title ) . '</a>';
 
-				$parent = '<a class="' . esc_attr( $this->plugin_short ) . '-parent-link" href="' . get_edit_post_link( $post ) . '" target="_blank"><span class="' . esc_attr( $this->plugin_short ) . '-edit-icon dashicons dashicons-edit"></span>' . sanitize_text_field( $post->post_title ) . '</a>';
+			$list_pages_args = array(
+				'post_type'     => $post_type,
+				'child_of'      => $post->ID,
+				'title_li'      => '',
+				'depth'         => 0,
+				'echo'          => false,
+				'link_before'   => '<span class="' . esc_attr( $this->plugin_short ) . '-edit-icon dashicons dashicons-edit"></span>',
+				'sort_column'   => 'post_parent',
+				'item_spacing'  => 'preserve',
+			);
 
-				$list_pages_args = array(
-					'post_type'     => $post_type,
-					'child_of'      => $post->ID,
-					'title_li'      => '',
-					'depth'         => 0,
-					'echo'          => false,
-					'link_before'   => '<span class="' . esc_attr( $this->plugin_short ) . '-edit-icon dashicons dashicons-edit"></span>',
-					'sort_column'   => 'post_parent',
-					'item_spacing'  => 'preserve',
-				);
+			add_filter( 'page_menu_link_attributes', array( $this, 'filter_wp_list_pages_link' ), 10, 5 );
+			$children = wp_list_pages( $list_pages_args );
+			remove_filter( 'page_menu_link_attributes', array( $this, 'filter_wp_list_pages_link' ), 10 );
 
-				add_filter( 'page_menu_link_attributes', array( $this, 'filter_wp_list_pages_link' ), 10, 5 );
-				$children = wp_list_pages( $list_pages_args );
-				remove_filter( 'page_menu_link_attributes', array( $this, 'filter_wp_list_pages_link' ), 10 );
+			$tkt_build_tree_view_html .= '<div class="' . esc_attr( $this->plugin_short ) . '_parent_item ' . esc_attr( $post->post_name ) . ' active">' . $parent . '</div><div class="' . esc_attr( $this->plugin_short ) . '_child ' . esc_attr( $post->post_name ) . '"><ul class="' . esc_attr( $this->plugin_short ) . '-searchable-contents">' . $children . '</ul></div>';
 
-				$tkt_build_tree_view_html .= '<div class="' . esc_attr( $this->plugin_short ) . '_parent_item ' . esc_attr( $post->post_name ) . ' active">' . $parent . '</div><div class="' . esc_attr( $this->plugin_short ) . '_child ' . esc_attr( $post->post_name ) . '"><ul class="' . esc_attr( $this->plugin_short ) . '-searchable-contents">' . $children . '</ul></div>';
-
-			}
 		}
 
 		return $tkt_build_tree_view_html;
-
-	}
-
-	/**
-	 * Test if there is at least a parent.
-	 *
-	 * @since    1.0.0
-	 * @param   array $all_posts_in_type    All Posts found in queried Post Type.
-	 * @return  bool    $has_parents    Checks if any of the posts have at least one parent.
-	 */
-	private function posts_have_parents( $all_posts_in_type ) {
-
-		$has_parents = false;
-
-		foreach ( $all_posts_in_type as $post ) {
-
-			if ( '' != $post->post_parent ) {
-
-				$has_parents = true;
-
-				return $has_parents;
-
-			}
-		}
-
-		return $has_parents;
 
 	}
 
@@ -288,16 +269,14 @@ class Tkt_Tree_View_Admin {
 
 		$has_children = false;
 
-		$has_children = get_children(
+		$children = get_children(
 			array(
 				'post_parent'   => $post->ID,
-				'post_type'     => $post->post_type,
 				'numberposts'   => 1,
-			),
-			ARRAY_N
+			)
 		);
 
-		if ( ! empty( $has_children ) ) {
+		if ( ! empty( $children ) ) {
 			$has_children = true;
 		}
 
@@ -356,7 +335,9 @@ class Tkt_Tree_View_Admin {
 	 */
 	public function set_current_screen() {
 
-		$this->caps_check();
+		if ( false === $this->caps_check() ) {
+			return;
+		}
 
 		$this->screen   = get_current_screen();
 
@@ -368,6 +349,10 @@ class Tkt_Tree_View_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
+
+		if ( false === $this->caps_check() ) {
+			return;
+		}
 
 		if ( 'dashboard' === $this->screen->id ) {
 
@@ -383,6 +368,10 @@ class Tkt_Tree_View_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
+
+		if ( false === $this->caps_check() ) {
+			return;
+		}
 
 		if ( 'dashboard' === $this->screen->id ) {
 
@@ -419,7 +408,7 @@ class Tkt_Tree_View_Admin {
 			),
 		);
 
-		if ( $this->posts_have_parents( $this->tree_view_posts( $post_type ) ) === true ) {
+		if ( ! empty( $this->tree_view_posts( $post_type ) ) ) {
 
 			echo '<div class="' . esc_attr( $this->plugin_short ) . '-description">';
 			echo wp_kses( $this->render_tree_view_widget_info_header( $post_type ), 'post' );
@@ -450,7 +439,9 @@ class Tkt_Tree_View_Admin {
 	 */
 	public function tree_view_dashboard_widget() {
 
-		$this->caps_check();
+		if ( false === $this->caps_check() ) {
+			return;
+		}
 
 		$this->widgets = apply_filters( $this->plugin_short . '_widgets', $this->get_widgets() );
 
