@@ -147,10 +147,10 @@ class Tkt_Tree_View {
 
 		$plugin_admin = new Tkt_Tree_View_Admin( $this->get_plugin_name(), $this->get_plugin_short(), $this->get_version() );
 
+		$this->loader->add_action( 'current_screen', $plugin_admin, 'set_current_screen' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'wp_dashboard_setup', $plugin_admin, 'tree_view_dashboard_widget' );
-		$this->loader->add_action( 'wp_dashboard_setup', $plugin_admin, 'set_current_screen' );
 
 	}
 
