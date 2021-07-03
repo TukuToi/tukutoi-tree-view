@@ -57,4 +57,5 @@ function run_tkt_tree_view() {
 	$plugin->run();
 
 }
-run_tkt_tree_view();
+// This plugin only has Admin side functionality.
+add_action( 'admin_init', 'run_tkt_tree_view' );
