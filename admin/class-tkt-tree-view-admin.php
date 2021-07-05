@@ -143,42 +143,30 @@ class Tkt_Tree_View_Admin {
 	 */
 	private function tree_view_posts( $post_type ) {
 
-		$all_posts      = array();
-		$all_parents    = array();
+		$pagination = $this->get_amount_per_page();
 
-		if ( 'page' == $post_type ) {
+		global $wpdb;
 
-			$all_posts = get_pages(
-				array(
-					'offset'   => $this->get_amount_per_page()['offset'],
-					'number'   => $this->get_amount_per_page()['per_page'],
-					'parent'   => 0,
-				)
-			);
+		$tl_posts_with_child = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM {$wpdb->prefix}posts AS p
+				WHERE p.post_type LIKE %s
+				AND p.post_parent LIKE 0
+				AND p.id IN( 
+					SELECT post_parent FROM {$wpdb->prefix}posts AS p
+		     		WHERE p.post_type = %s
+		       		AND p.post_parent != '0'
+		     		GROUP BY post_parent
+		     	)
+		     	LIMIT %d, %d",
+				$post_type,
+				$post_type,
+				$pagination['offset'],
+				$pagination['per_page']
+			)
+		);
 
-		} else {
-
-			$args = array(
-				'numberposts'   => $this->get_amount_per_page()['per_page'],
-				'offset'        => $this->get_amount_per_page()['offset'],
-				'post_type'     => $post_type,
-				'post_parent'   => 0,
-			);
-
-			$all_posts = get_posts( $args );
-
-		}
-
-		foreach ( $all_posts as $post ) {
-
-			if ( $this->posts_have_children( $post ) ) {
-
-				$all_parents[] = $post;
-
-			}
-		}
-
-		return $all_parents;
+		return $tl_posts_with_child;
 
 	}
 
@@ -259,32 +247,6 @@ class Tkt_Tree_View_Admin {
 		}
 
 		return $tkt_build_tree_view_html;
-
-	}
-
-	/**
-	 * Test if there is at least a child.
-	 *
-	 * @since    1.0.0
-	 * @param   object $post    The Post tested.
-	 * @return  bool    $has_children    Wether the post has any children.
-	 */
-	private function posts_have_children( $post ) {
-
-		$has_children = false;
-
-		$children = get_children(
-			array(
-				'post_parent'   => $post->ID,
-				'numberposts'   => 1,
-			)
-		);
-
-		if ( ! empty( $children ) ) {
-			$has_children = true;
-		}
-
-		return $has_children;
 
 	}
 
