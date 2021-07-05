@@ -15,7 +15,7 @@
  * Plugin Name:       TukuToi Hierarchical Posts Tree View
  * Plugin URI:        https://www.tukutoi.com/program/hierarchical-posts-tree/
  * Description:       WordPress Dashboard Widget displaying a Tree View of Hierarchical Pages or Posts.
- * Version:           1.0.2
+ * Version:           1.0.3
  * Author:            bedas
  * Author URI:        https://www.tukutoi.com/
  * License:           GPL-2.0+
@@ -34,7 +34,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'TKT_TREE_VIEW_VERSION', '1.0.2' );
+define( 'TKT_TREE_VIEW_VERSION', '1.0.3' );
 
 /**
  * The core plugin class that is used to define internationalization,
